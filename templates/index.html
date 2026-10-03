@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Product Recommendation System</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+        }
+
+        form {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        input {
+            width: 50%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin-left: 10px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .error {
+            text-align: center;
+            color: red;
+            margin: 20px;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #222;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>AI Product Recommendation System</h1>
+
+    <p class="description">
+        Enter a Customer ID to get personalized product recommendations.
+    </p>
+
+
+    <form method="POST" action="/recommend">
+
+        <input
+            type="text"
+            name="customer_id"
+            placeholder="Enter Customer ID"
+            required
+        >
+
+        <button type="submit">
+            Get Recommendations
+        </button>
+
+    </form>
+
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    {% if recommendations %}
+
+        <div class="results">
+
+            <h2>
+                Recommendations for {{ customer_id }}
+            </h2>
+
+            <table>
+
+                <tr>
+                    <th>Product ID</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Purchase Probability</th>
+                </tr>
+
+
+                {% for product in recommendations %}
+
+                <tr>
+
+                    <td>{{ product.product_id }}</td>
+
+                    <td>{{ product.product_category }}</td>
+
+                    <td>{{ product.brand }}</td>
+
+                    <td>₹{{ "%.2f"|format(product.product_price) }}</td>
+
+                    <td>{{ product.discount_percentage }}%</td>
+
+                    <td>
+                        {{ "%.2f"|format(product.purchase_probability * 100) }}%
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
